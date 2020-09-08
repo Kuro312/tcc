@@ -27,7 +27,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'suportetransporte.herokuapp.com']
 
 
 # Application definition
@@ -124,5 +124,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'users.custom_user'
 
 STATICFILES_DIRS = [
-    f'{BASE_DIR}/statics',
+    os.path.join(BASE_DIR, 'statics'),
 ]
