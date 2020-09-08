@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+
+{% block conteudo %}
+    {% load bootstrap %}
+
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}   
+        </div>
+    </div>
+
+    <div class="row"><!--titulo-->
+        <div class="col justify-content-center d-flex">
+            <h3>Gerenciar {{turma.motorista.username}}</h3>
+        </div>
+    </div>
+
+    <div class="row"><!--Formulario-->
+        <div class="col">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|bootstrap}}
+                <input type="submit" value="Adicionar aluno">
+            </form>
+        </div>
+    </div>
+
+    <div class="row"><!--tabela-->
+        <div class="col">
+            <table class='table text-center'>
+                <thead>
+                    <tr>
+                        <td>username</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aluno in alunos %}
+                        <tr>
+                            <td>
+                                {{aluno.username}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+{% endblock conteudo %}

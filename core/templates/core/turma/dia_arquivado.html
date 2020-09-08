@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+
+
+{% block conteudo %}
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}   
+        </div>
+    </div>
+
+    <div class="row mt-md-5"><!--titulo-->
+        <div class="col justify-content-center d-flex">
+            <h3>Dias arquivados</h3>
+        </div>
+    </div>
+
+    <div class="row mt-md-5"><!--tabela-->
+        <div class="col justify-content-center d-flex">
+            <table class='table text-center'>
+                <thead>
+                    <th>data</th>
+                    <th>gerenciar</th>
+                </thead>
+                <tbody>
+                    {% for dia in dias %}
+                        <tr>
+                            <td>{{dia.data}}</td>
+                            <td><a href={% url 'core_aluno_dia_arquivado_gerenciar' dia.id %}>gerenciar</a></td>
+                            
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock conteudo %}

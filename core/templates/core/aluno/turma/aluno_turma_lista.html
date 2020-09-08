@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+
+{% block conteudo %}
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}   
+        </div>
+    </div>
+
+    <div class="row"><!--Titulo-->
+        <div class="col justify-content-center d-flex">
+            <h3>Lista de turmas</h3>
+        </div>
+    </div>
+
+    <div class="row"><!--Tabela-->
+        <div class="col justify-content-center d-flex">
+            <table class='table text-center'>
+                <thead>
+                    <th>Nome</th>
+                    <th>Gerenciar</th>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                        <tr>
+                            <td>{{turma}}</td>
+                            <td><a href={% url 'core_aluno_turma_gerenciar' turma.id %}>gerenciar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock conteudo %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+
+{% block conteudo %}
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='home'%}   
+        </div>
+    </div>
+    
+    <div class="row"><!--titulo-->
+        <div class="col justify-content-center d-flex">
+            <h3>Home motorista</h3>
+        </div>
+    </div> 
+{% endblock conteudo %}

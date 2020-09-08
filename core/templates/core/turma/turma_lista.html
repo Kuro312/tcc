@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Gerenciar turma
+{% endblock titulo %}
+
+
+{% block conteudo %}
+    {% load bootstrap %}
+
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}
+        </div>
+    </div>
+
+    <div class="row"><!--formulario de cadastro-->
+        <div class="col justify-content-center d-flex">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form|bootstrap}}
+                <input type="submit" value="Criar">
+            </form>
+        </div>
+    </div>
+
+    <div class="row"><!--tabela-->
+        <div class="col justify-content-center d-flex">
+            <table>
+                <thead>
+                    <tr>
+                        <th>motorista</th>
+                        <th>vagas</th>
+                        <th>gerenciar</th>
+                        <th>dias</th>
+                        <th>dias arquivados</th>
+                        <th>apagar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for turma in turmas %}
+                        <tr>
+                            <td>{{turma.motorista.username}}</td>
+                            <td>{{turma.vagas}}</td>
+                            <td><a href={% url 'core_gerenciar_turma' turma.id %}>Gerenciar</a></td>
+                            <td><a href={% url 'core_lista_dias' turma.id %}>Dias</a></td>
+                            <td><a href={% url 'core_aluno_dia_arquivado_lista' turma.id %}>Dias arquivados</a></td>
+                            <td><a href={% url 'core_apagar_turma' turma.id %}>Apagar</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock conteudo %}
