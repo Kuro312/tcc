@@ -14,7 +14,7 @@ class UserForm(ModelForm):
     class Meta:
         model = custom_user
         fields = ['username', 'password',
-                  'date_joined', 'telefone']
+                  'date_joined', 'telefone', 'local']
         widgets = {
             'password': forms.PasswordInput(),
             'date_joined': DateTimeInput(format='%Y-%m-%dT%H:%M'),

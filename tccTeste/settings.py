@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrapform',
+    'mapbox_location_field',
     'users',
     'core',
 ]
@@ -126,3 +127,4 @@ AUTH_USER_MODEL = 'users.custom_user'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'statics'),
 ]
+MAPBOX_KEY = 'pk.eyJ1IjoiZnVrdXNoaXJvIiwiYSI6ImNrZHh2enM3bzM3c3EyenFxaXR3OXB3ZmYifQ.PpxwlldzASlTopHwtV_kaQ'

@@ -3,10 +3,13 @@
 
 
 {% block conteudo %}
-
+    {% load mapbox_location_field_tags %}
+    {% location_field_includes %}
+    {% include_jquery %}
     <form action="" method="post">
         {% csrf_token %}
         {{form.as_p}}
         <input type="submit" value="Criar">
     </form>
+    {{ form.media }}
 {% endblock conteudo %}
