@@ -18,7 +18,7 @@ class DateInput(forms.DateInput):
 class Turmaform(ModelForm):
     class Meta:
         model = Turma
-        fields = ['vagas']
+        fields = ['nome', 'local']
 
 
 class GerenciarTurmaForm(forms.Form):
@@ -38,3 +38,15 @@ class AlunoForm(ModelForm):
     class Meta:
         model = Aluno
         fields = ['vai', 'volta', 'esta_na_ida', 'esta_na_volta']
+
+
+class AlunoMenorForm(ModelForm):
+    class Meta:
+        model = Aluno
+        fields = ['vai', 'volta']
+
+
+class AlunoMenorFormMotorista(ModelForm):
+    class Meta:
+        model = Aluno
+        fields = ['esta_na_ida', 'esta_na_volta']

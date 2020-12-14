@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+
+{% block conteudo %}
+    {% load bootstrap %}
+    {% load mapbox_location_field_tags %}
+    {% include_jquery %}
+    {% location_field_includes %}
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col justify-content-center d-flex">
+            <h3>Cadastrar turma</h3>
+        </div>
+    </div>
+
+    <div class="row mt-4 mb-5 "><!--formulario de cadastro-->
+        <div class="col justify-content-center d-flex">
+            <form action="" method="post"  style="width:80%">
+                {% csrf_token %}
+                {{form|bootstrap}}
+                <input type="submit" value="Criar">
+            </form>
+             {{ form.media }}
+        </div>
+    </div>
+    
+{% endblock conteudo %}

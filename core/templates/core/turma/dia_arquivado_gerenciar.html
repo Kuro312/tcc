@@ -18,7 +18,60 @@
 
     <div class="row"><!--Tabela-->
         <div class="col">
-            {% include 'core/turma/tables/table_alunos.html'  %}
+            <table class="table text-center">
+                <thead>
+                    <th>Nome</th>
+                    <th>vai</th>
+                    <th>volta</th>
+                    <th>Esta na ida</th>
+                    <th>Esta na volta</th>
+                    <th>Menor de idade</th>
+                </thead>
+                <tbody>
+                    {% for aluno in alunos %}
+                        <tr>
+                            <td>{{aluno.usuario.username}}</td>
+                            <td>
+                                {% if aluno.vai %}
+                                    Vai
+                                {% else %}
+                                    Não vai
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if aluno.volta %}
+                                    Volta
+                                {% else %}
+                                    Não volta
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if aluno.esta_na_ida %}
+                                    Esta
+                                {% else %}
+                                    Não esta
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if aluno.esta_na_volta %}
+                                    Esta
+                                {% else %}
+                                    Não esta
+                                {% endif %}
+                            </td>
+                            <td>
+                                
+                                {% if aluno.menor_de_idade %}
+                                    É
+                                {% else %}
+                                    Não é
+                                {% endif %}
+                                    
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 

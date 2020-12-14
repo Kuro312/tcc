@@ -3,13 +3,27 @@
 
 
 {% block conteudo %}
+    
     {% load mapbox_location_field_tags %}
     {% location_field_includes %}
     {% include_jquery %}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Criar">
-    </form>
-    {{ form.media }}
+    {% load bootstrap %}
+    <div class="row  mt-5">
+        <div class="col justify-content-center d-flex">
+            <h3>Registrar</h3>
+        </div>
+    </div>
+    <div class="row mt-4 mb-5"><!--form-->
+        <div class="col">
+            <form action="" method="post">
+            {% csrf_token %}
+            {{form|bootstrap}}
+            <input type="submit" value="Criar">
+            </form>
+            {{ form.media }}
+        </div>
+    </div>
+
+   
+    
 {% endblock conteudo %}

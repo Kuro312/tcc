@@ -10,14 +10,18 @@ class DateTimeInput(forms.DateTimeInput):
     pass
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class UserForm(ModelForm):
     class Meta:
         model = custom_user
-        fields = ['username', 'password',
-                  'date_joined', 'telefone', 'local']
+        fields = ['username', 'password', 'email',
+                  'telefone', 'local', 'data_nascimento']
         widgets = {
             'password': forms.PasswordInput(),
-            'date_joined': DateTimeInput(format='%Y-%m-%dT%H:%M'),
+            'data_nascimento': DateInput(format='%Y-%m-%d'),
         }
 
     def save(self, commit=True):

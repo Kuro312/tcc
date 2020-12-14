@@ -4,6 +4,8 @@ from core.forms import (
     GerenciarTurmaForm,
     DiaForm,
     AlunoForm,
+    AlunoMenorForm,
+    AlunoMenorFormMotorista,
 )
 from core.models import (
     Turma,
@@ -12,6 +14,8 @@ from core.models import (
 )
 from users.models import custom_user
 import datetime
+from decouple import config
+
 # Create your views here.
 
 # area do motorista
@@ -19,6 +23,7 @@ import datetime
 
 
 def core_home(request):
+
     c = {
 
     }
@@ -26,21 +31,39 @@ def core_home(request):
 
 # turma
 
-# Criação e listagem das turmas do motorista logado
+#  listagem das turmas do motorista logado
 
 
 def core_turma_lista(request):
-    if request.method == 'POST':
-        u = Turma(motorista=request.user, vagas=request.POST['vagas'])
-        u.save()
-        return redirect('core_turma_lista')
-    form = Turmaform()
+
     turmas = Turma.objects.filter(motorista=request.user)
     c = {
-        'form': form,
+
         'turmas': turmas,
     }
     return render(request, 'core/turma/turma_lista.html', c)
+
+
+# cadastrar turma
+
+def core_turma_cadastrar(request):
+    if request.method == 'POST':
+        # u = Turma(motorista=request.user,nome = request.POST['nome'], local = request.POST['local'])
+
+        # u.save()
+        form = Turmaform(request.POST)
+        if form.is_valid():
+            u = form.save(commit=False)
+            u.motorista = request.user
+            u.save()
+
+        return redirect('core_turma_lista')
+    form = Turmaform()
+
+    c = {
+        'form': form,
+    }
+    return render(request, 'core/turma/cadastrar_turma.html', c)
 
 # gerenciamento de uma turma especifica
 
@@ -144,8 +167,48 @@ def core_aluno_dia_arquivado_gerenciar(request, idDia):
     alunos = Aluno.objects.filter(dia=dia)
     c = {
         'alunos': alunos,
+        'dia': dia,
     }
     return render(request, 'core/turma/dia_arquivado_gerenciar.html', c)
+
+
+def core_turma_dia_gerenciar(request, idDia, idAluno):
+    dia = Dia.objects.get(id=idDia)
+    aluno = Aluno.objects.get(id=idAluno)
+    form = AlunoMenorFormMotorista(instance=aluno)
+    if request.method == "POST":
+        f = AlunoMenorFormMotorista(request.POST, instance=aluno)
+        if f.is_valid():
+            f.save()
+        return redirect('core_gerenciar_dia', idDia)
+    c = {
+        'form': form,
+    }
+    return render(request, 'core/turma/turma_dia_gerenciar.html', c)
+
+
+def core_turma_dia_rota(request, idDia):
+    dia = Dia.objects.get(id=idDia)
+    alunos = Aluno.objects.filter(dia=dia)
+    local_motorista = dia.turma.motorista.local
+    destino = dia.turma.local
+    print(destino)
+    locais = []
+
+    for aluno in alunos:
+        locais.append([aluno.usuario.local[0], aluno.usuario.local[1]])
+
+    mapbox_key = config('MAPBOX_KEY')
+    c = {
+        'alunos': alunos,
+        'locais': locais,
+        'local_motorista': local_motorista,
+        'destino': destino,
+        'mapbox_key': mapbox_key,
+    }
+
+    return render(request, 'core/turma/dia_rota.html', c)
+
 
 # alunos
 
@@ -174,10 +237,14 @@ def core_aluno_lista_turma(request):
 def core_aluno_turma_gerenciar(request, idTurma):
     turma = Turma.objects.get(id=idTurma)
     dias = Dia.objects.filter(turma=turma).filter(ativo=True)
+    alunos = Aluno.objects.filter(usuario=request.user)
+    alunos_dias = [aluno.dia for aluno in alunos]
 
     c = {
         'turma': turma,
         'dias': dias,
+        'alunos': alunos,
+        'alunos_dias': alunos_dias,
     }
     return render(request, 'core/aluno/turma/aluno_turma_gerenciar.html', c)
 
@@ -185,29 +252,63 @@ def core_aluno_turma_gerenciar(request, idTurma):
 
 
 def core_aluno_dia_gerenciar(request, idDia):
-    dia = Dia.objects.get(id=idDia)
+    menor = False
+    hoje = datetime.date.today().year
+    data = hoje - 18
+    data_usuario = request.user.data_nascimento.year
 
+    if data_usuario > data:
+        menor = True
+
+    dia = Dia.objects.get(id=idDia)
+    # Indentifica se ja tem um objeto aluno linkado a esse dia e usuario
     try:
         aluno = Aluno.objects.get(usuario=request.user, dia=dia)
     except Aluno.DoesNotExist:
         aluno = None
+    # gera o formulario
     if aluno is not None:
-        form = AlunoForm(instance=aluno)
+        if menor:
+            form = AlunoMenorForm(instance=aluno)
+        else:
+            form = AlunoForm(instance=aluno)
+
     else:
-        form = AlunoForm()
+        if menor:
+            form = AlunoMenorForm()
+        else:
+            form = AlunoForm()
+    #
     if request.method == 'POST':
 
         if aluno is not None:
-            f = AlunoForm(request.POST, instance=aluno)
-            if f.is_valid():
-                f.save()
+            if menor:
+                f = AlunoMenorForm(request.POST, instance=aluno)
+                if f.is_valid():
+                    f.save(commit=False)
+                    f.menor_de_idade = True
+                    f.save()
+            else:
+                f = AlunoForm(request.POST, instance=aluno)
+                if f.is_valid():
+
+                    f.save()
         else:
-            f = AlunoForm(request.POST)
-            if f.is_valid():
-                uf = f.save(commit=False)
-                uf.dia = dia
-                uf.usuario = request.user
-                uf.save()
+            if menor:
+                f = AlunoMenorForm(request.POST)
+                if f.is_valid():
+                    uf = f.save(commit=False)
+                    uf.dia = dia
+                    uf.usuario = request.user
+                    uf.menor_de_idade = True
+                    uf.save()
+            else:
+                f = AlunoForm(request.POST)
+                if f.is_valid():
+                    uf = f.save(commit=False)
+                    uf.dia = dia
+                    uf.usuario = request.user
+                    uf.save()
 
         return redirect('core_aluno_turma_gerenciar', dia.turma.id)
 

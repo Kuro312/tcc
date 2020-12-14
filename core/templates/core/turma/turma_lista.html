@@ -14,23 +14,19 @@
         </div>
     </div>
 
-    <div class="row"><!--formulario de cadastro-->
+    <div class="row">
         <div class="col justify-content-center d-flex">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form|bootstrap}}
-                <input type="submit" value="Criar">
-            </form>
+            <a href={% url 'core_turma_cadastrar' %} class="btn btn-primary">Cadastrar</a>
         </div>
     </div>
 
     <div class="row"><!--tabela-->
         <div class="col justify-content-center d-flex">
-            <table>
+            <table class="text-center table">
                 <thead>
                     <tr>
                         <th>motorista</th>
-                        <th>vagas</th>
+                        <th>nome</th>
                         <th>gerenciar</th>
                         <th>dias</th>
                         <th>dias arquivados</th>
@@ -41,7 +37,7 @@
                     {% for turma in turmas %}
                         <tr>
                             <td>{{turma.motorista.username}}</td>
-                            <td>{{turma.vagas}}</td>
+                            <td>{{turma.nome}}</td>
                             <td><a href={% url 'core_gerenciar_turma' turma.id %}>Gerenciar</a></td>
                             <td><a href={% url 'core_lista_dias' turma.id %}>Dias</a></td>
                             <td><a href={% url 'core_aluno_dia_arquivado_lista' turma.id %}>Dias arquivados</a></td>

@@ -4,6 +4,7 @@ from users.models import custom_user
 from django.contrib.auth import (authenticate,
                                  login,
                                  logout,)
+import datetime
 # Create your views here.
 
 
@@ -15,6 +16,7 @@ def sair(request):
 
 # login
 def user_login(request):
+
     if request.method == 'POST':
         u = authenticate(
             username=request.POST['username'], password=request.POST['password'])
@@ -41,6 +43,7 @@ def user_register(request):
         if form.is_valid():
 
             u = form.save(commit=False)
+            u.date_joined = datetime.date.today()
             u.permissao = request.POST['permissao']
             u.save()
         return redirect('user_login')

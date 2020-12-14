@@ -8,11 +8,14 @@
         <th>volta</th>
         <th>Esta na ida</th>
         <th>Esta na volta</th>
+        <th>Gerenciar menor</th>
     </thead>
     <tbody>
         {% for aluno in alunos %}
             <tr>
-                <td>{{aluno.usuario.username}}</td>
+                <td>
+                    {{aluno.usuario.username}}
+                </td>
                 <td>
                     {% if aluno.vai %}
                         Vai
@@ -40,6 +43,13 @@
                     {% else %}
                         Não esta
                     {% endif %}
+                </td>
+                <td>
+                    
+                    {% if aluno.menor_de_idade %}
+                        <a href={% url 'core_turma_dia_gerenciar' dia.id  aluno.id %}>Gerenciar</a>
+                    {% endif %}
+                        
                 </td>
             </tr>
         {% endfor %}

@@ -13,11 +13,22 @@ from core.views import (
     core_aluno_dia_gerenciar,
     core_aluno_dia_arquivado_lista,
     core_aluno_dia_arquivado_gerenciar,
+    core_turma_dia_gerenciar,
+    core_turma_cadastrar,
+    core_turma_dia_rota,
 )
 urlpatterns = [
+    # motorista
+
     path('motorista', core_home, name='core_home'),
     # lista das turmas
     path('motorista/turma', core_turma_lista, name='core_turma_lista'),
+
+
+    # cadastrar turma
+    path('motorista/turma/cadastrar', core_turma_cadastrar,
+         name='core_turma_cadastrar'),
+
     # gerenciar uma turma especifica
     path('motorista/turma/gerenciar/<int:id>', core_gerenciar_turma,
          name='core_gerenciar_turma'),
@@ -31,6 +42,17 @@ urlpatterns = [
     # gerenciar um dia especifico
     path('motorista/turma/dia/<int:id>',
          core_gerenciar_dia, name='core_gerenciar_dia'),
+
+    path('motorista/turma/dia/<int:idDia>/aluno/<int:idAluno>',
+         core_turma_dia_gerenciar, name='core_turma_dia_gerenciar'),
+
+    path('motorista/turma/dia/<int:idDia>/rota',
+         core_turma_dia_rota, name='core_turma_dia_rota'),
+
+
+
+
+
 
     # aluno
     # home do aluno

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+
+{% block conteudo %}
+    <div class="row"><!--Menu-->
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='turma'%}   
+        </div>
+    </div>
+    <div class="row">
+        <div class="col justify-content-center d-flex">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Confirmar">
+            </form>
+        </div>
+    </div>
+{% endblock conteudo %}
