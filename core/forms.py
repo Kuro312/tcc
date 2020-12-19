@@ -1,4 +1,7 @@
 from django.forms import ModelForm
+from users.models import(
+    custom_user
+)
 from core.models import (
     Turma,
     Aluno,
@@ -50,3 +53,9 @@ class AlunoMenorFormMotorista(ModelForm):
     class Meta:
         model = Aluno
         fields = ['esta_na_ida', 'esta_na_volta']
+
+
+class UsuarioUpdate(ModelForm):
+    class Meta:
+        model = custom_user
+        fields = ['username', 'telefone', 'local']

@@ -83,14 +83,14 @@
                         i++;
                     }
 
-                   new mapboxgl.Marker().setLngLat([origem[0], origem[1]]).addTo(map);
+                   new mapboxgl.Marker().setLngLat(origem).addTo(map);
                     //new mapboxgl.Marker().setLngLat([ {{origem.0}}, {{origem.1}} ]).addTo(map);
 
-                    new mapboxgl.Marker().setLngLat([destino[0], destino[1]]).addTo(map);
+                    new mapboxgl.Marker().setLngLat(destino).addTo(map);
                     directions.setDestination(destino);
 
                     out.forEach((element) => {
-                        new mapboxgl.Marker().setLngLat([element[0],element[1]]).addTo(map)
+                        new mapboxgl.Marker().setLngLat(element).addTo(map);
                     });
                     map.addControl(directions, "top-left");
                 })//-21.252427045133373,-43.78304895814793

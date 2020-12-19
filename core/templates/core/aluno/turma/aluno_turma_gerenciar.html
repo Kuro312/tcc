@@ -24,7 +24,7 @@
                     <th>Volta</th>
                     <th>Esta na ida</th>
                     <th>Esta na volta</th>
-                    
+                    <th>Rota</th>
                 </thead>
                 <tbody>
                     {% for dia in dias %}
@@ -127,6 +127,7 @@
                                 {% endif %}
                                     
                             </td>
+                            <td><a href={% url 'core_aluno_rota' dia.id %}>Rota</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

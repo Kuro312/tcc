@@ -16,6 +16,9 @@ from core.views import (
     core_turma_dia_gerenciar,
     core_turma_cadastrar,
     core_turma_dia_rota,
+    core_aluno_atualizar,
+    core_motorista_atualizar,
+    core_aluno_rota,
 )
 urlpatterns = [
     # motorista
@@ -49,7 +52,8 @@ urlpatterns = [
     path('motorista/turma/dia/<int:idDia>/rota',
          core_turma_dia_rota, name='core_turma_dia_rota'),
 
-
+    path('motorista/update/<int:id>', core_motorista_atualizar,
+         name='core_motorista_atualizar'),
 
 
 
@@ -75,4 +79,10 @@ urlpatterns = [
 
     path('aluno/turmo/diaArquivado/gerenciar/<int:idDia>',
          core_aluno_dia_arquivado_gerenciar, name='core_aluno_dia_arquivado_gerenciar'),
+
+    path('aluno/update/<int:id>', core_aluno_atualizar,
+         name='core_aluno_atualizar'),
+
+
+    path('aluno/dia/<int:idDia>/rota', core_aluno_rota, name='core_aluno_rota'),
 ]

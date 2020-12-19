@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+
+{% block conteudo %}
+    {% load bootstrap %}
+    {% load mapbox_location_field_tags %}
+    {% location_field_includes %}
+    {% include_jquery %}
+    <div class="row">
+        <div class="col justify-content-center d-flex">
+            {% include 'menu.html' with ativo='update' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col justify-content-center d-flex">
+            <h3>Update aluno {{usuario.username}}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col justify-content-center d-flex">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{form | bootstrap}}
+                <input type="submit" value="enviar">
+            </form>
+            {{form.media}}
+        </div>
+    </div>
+
+{% endblock conteudo %}
+    

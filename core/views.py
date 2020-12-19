@@ -6,6 +6,7 @@ from core.forms import (
     AlunoForm,
     AlunoMenorForm,
     AlunoMenorFormMotorista,
+    UsuarioUpdate
 )
 from core.models import (
     Turma,
@@ -192,7 +193,6 @@ def core_turma_dia_rota(request, idDia):
     alunos = Aluno.objects.filter(dia=dia)
     local_motorista = dia.turma.motorista.local
     destino = dia.turma.local
-    print(destino)
     locais = []
 
     for aluno in alunos:
@@ -209,6 +209,22 @@ def core_turma_dia_rota(request, idDia):
 
     return render(request, 'core/turma/dia_rota.html', c)
 
+
+def core_motorista_atualizar(request, id):
+    usuario = custom_user.objects.get(id=id)
+
+    if request.method == "POST":
+        print(request.POST)
+        form = UsuarioUpdate(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+        return redirect('core_aluno_home')
+    form = UsuarioUpdate(instance=usuario)
+    c = {
+        'form': form,
+        'usuario': usuario,
+    }
+    return render(request, 'core/turma/motorista_update.html', c)
 
 # alunos
 
@@ -237,7 +253,8 @@ def core_aluno_lista_turma(request):
 def core_aluno_turma_gerenciar(request, idTurma):
     turma = Turma.objects.get(id=idTurma)
     dias = Dia.objects.filter(turma=turma).filter(ativo=True)
-    alunos = Aluno.objects.filter(usuario=request.user)
+    alunos = Aluno.objects.filter(usuario=request.user).filter(dia__in=dias)
+    print(alunos)
     alunos_dias = [aluno.dia for aluno in alunos]
 
     c = {
@@ -318,3 +335,41 @@ def core_aluno_dia_gerenciar(request, idDia):
         'aluno': aluno,
     }
     return render(request, 'core/aluno/turma/dia_gerenciar.html', c)
+
+
+def core_aluno_atualizar(request, id):
+    usuario = custom_user.objects.get(id=id)
+
+    if request.method == "POST":
+        print(request.POST)
+        form = UsuarioUpdate(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+        return redirect('core_aluno_home')
+    form = UsuarioUpdate(instance=usuario)
+    c = {
+        'form': form,
+        'usuario': usuario,
+    }
+    return render(request, 'core/aluno/aluno_update.html', c)
+
+
+def core_aluno_rota(request, idDia):
+    # dia = Dia.objects.get(id=idDia)
+    # usuario = request.user
+
+    dia = Dia.objects.get(id=idDia)
+    alunos = Aluno.objects.filter(dia=dia)
+    local_motorista = dia.turma.motorista.local
+    destino = dia.turma.local
+    locais = [aluno.usuario.local for aluno in alunos]
+    mapbox_key = config('MAPBOX_KEY')
+    print(mapbox_key)
+    c = {
+        'alunos': alunos,
+        'local_motorista': local_motorista,
+        'destino': destino,
+        'mapbox_key': mapbox_key,
+        'locais': locais,
+    }
+    return render(request, 'core/aluno/rota/aluno_rota.html', c)
