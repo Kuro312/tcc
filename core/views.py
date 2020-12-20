@@ -199,6 +199,7 @@ def core_turma_dia_rota(request, idDia):
         locais.append([aluno.usuario.local[0], aluno.usuario.local[1]])
 
     mapbox_key = config('MAPBOX_KEY')
+
     c = {
         'alunos': alunos,
         'locais': locais,
@@ -341,7 +342,6 @@ def core_aluno_atualizar(request, id):
     usuario = custom_user.objects.get(id=id)
 
     if request.method == "POST":
-        print(request.POST)
         form = UsuarioUpdate(request.POST, instance=usuario)
         if form.is_valid():
             form.save()
@@ -364,7 +364,7 @@ def core_aluno_rota(request, idDia):
     destino = dia.turma.local
     locais = [aluno.usuario.local for aluno in alunos]
     mapbox_key = config('MAPBOX_KEY')
-    print(mapbox_key)
+
     c = {
         'alunos': alunos,
         'local_motorista': local_motorista,
