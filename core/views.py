@@ -199,7 +199,6 @@ def core_turma_dia_rota(request, idDia):
         locais.append([aluno.usuario.local[0], aluno.usuario.local[1]])
 
     mapbox_key = config('MAPBOX_KEY')
-
     c = {
         'alunos': alunos,
         'locais': locais,
