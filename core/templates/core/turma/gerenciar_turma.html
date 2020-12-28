@@ -31,7 +31,8 @@
             <table class='table text-center'>
                 <thead>
                     <tr>
-                        <td>username</td>
+                        <td>Nome</td>
+                        <td>Apagar</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,6 +41,14 @@
                             <td>
                                 {{aluno.username}}
                             </td>
+
+                            <td>
+                            <form action="{% url 'core_apagar_aluno' turma.id aluno.id%}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" value="Apagar">
+                            </form>
+                            
+                            
                            
                         </tr>
                     {% endfor %}

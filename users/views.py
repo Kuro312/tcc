@@ -24,7 +24,8 @@ def user_login(request):
             login(request, u)
             if u.permissao == 1:
                 return redirect('core_aluno_home')
-            return redirect('core_home')
+            elif u.permissao == 2:
+                return redirect('core_home')
 
         return redirect('user_login')
     form = UserLoginForm()

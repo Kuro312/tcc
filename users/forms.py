@@ -31,6 +31,12 @@ class UserForm(ModelForm):
         if commit:
             user.save()
         return user
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget = forms.TextInput(
+            attrs={})
+
     permissao = forms.ChoiceField(choices=[(1, 'Aluno'), (2, 'Motorista')])
 
 

@@ -2,19 +2,16 @@
 
 
 
-{% block conteudo %}
 
-    <div class="row"><!--Menu-->
-        <div class="col justify-content-center d-flex">
-            {% include 'menu.html' with ativo='turma'%}   
+{% block conteudo %}
+    <div class="row"><!-- titulo -->
+        <div class="col">
+            <h3>Rota de volta do dia </h3>
         </div>
     </div>
-    <div class="row"><!-- Titulo -->
-        <div class="col justify-content-center d-flex">
-            <h3>Rota</h3>
-        </div>
-    </div>
-    <div class="row"><!-- mapa -->
+
+
+    <div class="row">
         <div class="col">
             <div id='map' style='width: 100%; height: 500px;'></div>
             {% load js %}
@@ -64,8 +61,8 @@
                     }));
                     var out = {{locais | js}};
 
-                    var origem = {{local_motorista | js}};
-                    var destino = {{destino | js}};
+                    var origem = {{destino | js}};
+                    var destino = {{local_motorista | js}};
                     
                     let lista = [...out];
 
@@ -98,5 +95,5 @@
             </script>
         </div>
     </div>
-
 {% endblock conteudo %}
+    

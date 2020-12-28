@@ -31,7 +31,8 @@
                     <tr>
                         <th>Data</th>
                         <th>gerenciar</th>
-                        <th>Rota</th>
+                        <th>Rota ida</th>
+                        <th>Rota volta</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,9 +40,13 @@
                         <tr>
                             <td>{{dia.data}}</td>
                             
-                            <td><a href={% url 'core_gerenciar_dia' dia.id %}>gerenciar</a></td>
+                            <td>
+                                <a href={% url 'core_gerenciar_dia' dia.id %}>gerenciar</a></td>
                              <td>
                                 <a href={% url 'core_turma_dia_rota' dia.id %}>Ver rota</a>
+                            </td>
+                            <td>
+                                <a href={% url 'core_turma_dia_rota_volta' dia.id %}>Ver rota</a>
                             </td>
                         </tr>
                     {% endfor %}

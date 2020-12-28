@@ -14,6 +14,9 @@ from core.models import (
     Aluno,
 )
 from users.models import custom_user
+from users.views import (
+    user_login,
+)
 import datetime
 from decouple import config
 
@@ -24,7 +27,8 @@ from decouple import config
 
 
 def core_home(request):
-
+    if request.user.is_anonymous:
+        return redirect(user_login)
     c = {
 
     }
@@ -36,6 +40,8 @@ def core_home(request):
 
 
 def core_turma_lista(request):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
 
     turmas = Turma.objects.filter(motorista=request.user)
     c = {
@@ -48,6 +54,8 @@ def core_turma_lista(request):
 # cadastrar turma
 
 def core_turma_cadastrar(request):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     if request.method == 'POST':
         # u = Turma(motorista=request.user,nome = request.POST['nome'], local = request.POST['local'])
 
@@ -70,6 +78,8 @@ def core_turma_cadastrar(request):
 
 
 def core_gerenciar_turma(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turma = Turma.objects.get(id=id)
     dias = Dia.objects.filter(turma=turma)
     if request.method == 'POST':
@@ -81,6 +91,7 @@ def core_gerenciar_turma(request, id):
             u = None
         if u is not None:
             turma.alunos.add(u)
+
         return redirect('core_gerenciar_turma', id)
 
     alunos = turma.alunos.all()
@@ -96,6 +107,8 @@ def core_gerenciar_turma(request, id):
 
 
 def core_apagar_turma(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turma = Turma.objects.get(id=id)
     if request.method == 'POST':
         turma.delete()
@@ -111,6 +124,8 @@ def core_apagar_turma(request, id):
 # lista dos dias de uma turma
 
 def core_lista_dias(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turma = Turma.objects.get(id=id)
     if(turma.motorista != request.user):
         return redirect('core_home')
@@ -133,6 +148,8 @@ def core_lista_dias(request, id):
 
 
 def core_gerenciar_dia(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     dia = Dia.objects.get(id=id)
     if request.method == 'POST':
         dia.ativo = False
@@ -152,6 +169,8 @@ def core_gerenciar_dia(request, id):
 
 
 def core_aluno_dia_arquivado_lista(request, idTurma):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turma = Turma.objects.get(id=idTurma)
     dias = Dia.objects.filter(turma=turma).filter(ativo=False)
     c = {
@@ -164,6 +183,8 @@ def core_aluno_dia_arquivado_lista(request, idTurma):
 
 
 def core_aluno_dia_arquivado_gerenciar(request, idDia):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     dia = Dia.objects.get(id=idDia)
     alunos = Aluno.objects.filter(dia=dia)
     c = {
@@ -174,6 +195,8 @@ def core_aluno_dia_arquivado_gerenciar(request, idDia):
 
 
 def core_turma_dia_gerenciar(request, idDia, idAluno):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     dia = Dia.objects.get(id=idDia)
     aluno = Aluno.objects.get(id=idAluno)
     form = AlunoMenorFormMotorista(instance=aluno)
@@ -189,14 +212,13 @@ def core_turma_dia_gerenciar(request, idDia, idAluno):
 
 
 def core_turma_dia_rota(request, idDia):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     dia = Dia.objects.get(id=idDia)
-    alunos = Aluno.objects.filter(dia=dia)
+    alunos = Aluno.objects.filter(dia=dia).filter(vai=True)
     local_motorista = dia.turma.motorista.local
     destino = dia.turma.local
-    locais = []
-
-    for aluno in alunos:
-        locais.append([aluno.usuario.local[0], aluno.usuario.local[1]])
+    locais = [aluno.usuario.local for aluno in alunos]
 
     mapbox_key = config('MAPBOX_KEY')
     c = {
@@ -210,7 +232,30 @@ def core_turma_dia_rota(request, idDia):
     return render(request, 'core/turma/dia_rota.html', c)
 
 
+def core_turma_dia_rota_volta(request, idDia):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
+    dia = Dia.objects.get(id=idDia)
+    alunos = Aluno.objects.filter(dia=dia).filter(volta=True)
+    local_motorista = dia.turma.motorista.local
+    destino = dia.turma.local
+    locais = [aluno.usuario.local for aluno in alunos]
+
+    mapbox_key = config('MAPBOX_KEY')
+    c = {
+        'alunos': alunos,
+        'locais': locais,
+        'local_motorista': local_motorista,
+        'destino': destino,
+        'mapbox_key': mapbox_key,
+    }
+
+    return render(request, 'core/turma/dia_rota_volta.html', c)
+
+
 def core_motorista_atualizar(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     usuario = custom_user.objects.get(id=id)
 
     if request.method == "POST":
@@ -226,12 +271,35 @@ def core_motorista_atualizar(request, id):
     }
     return render(request, 'core/turma/motorista_update.html', c)
 
+
+def core_apagar_aluno(request, idTurma, idAluno):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
+    turma = Turma.objects.get(id=idTurma)
+    aluno = custom_user.objects.get(id=idAluno)
+    usuario = request.user
+    if request.user == None:
+        return redirect(user_login)
+    if turma.motorista != usuario:
+
+        return render(request, 'core/index.html')
+
+    if request.method == 'POST':
+
+        turma.alunos.remove(aluno)
+
+        return redirect('core_gerenciar_turma', idTurma)
+    return render(request, 'core/index.html')
+
+
 # alunos
 
 # home do aluno
 
 
 def core_aluno_home(request):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     c = {
 
     }
@@ -240,6 +308,9 @@ def core_aluno_home(request):
 
 # lista das turmas do aluno
 def core_aluno_lista_turma(request):
+
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turmas = Turma.objects.all().filter(alunos=request.user)
 
     c = {
@@ -251,12 +322,16 @@ def core_aluno_lista_turma(request):
 
 
 def core_aluno_turma_gerenciar(request, idTurma):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     turma = Turma.objects.get(id=idTurma)
     dias = Dia.objects.filter(turma=turma).filter(ativo=True)
     alunos = Aluno.objects.filter(usuario=request.user).filter(dia__in=dias)
-    print(alunos)
     alunos_dias = [aluno.dia for aluno in alunos]
+    usuario = request.user
 
+    if(usuario not in turma.alunos.all()):
+        return redirect(core_aluno_home)
     c = {
         'turma': turma,
         'dias': dias,
@@ -269,15 +344,20 @@ def core_aluno_turma_gerenciar(request, idTurma):
 
 
 def core_aluno_dia_gerenciar(request, idDia):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     menor = False
     hoje = datetime.date.today().year
     data = hoje - 18
     data_usuario = request.user.data_nascimento.year
+    dia = Dia.objects.get(id=idDia)
+    usuario = request.user
 
+    if usuario not in dia.turma.alunos.all():
+        return redirect(core_aluno_home)
     if data_usuario > data:
         menor = True
 
-    dia = Dia.objects.get(id=idDia)
     # Indentifica se ja tem um objeto aluno linkado a esse dia e usuario
     try:
         aluno = Aluno.objects.get(usuario=request.user, dia=dia)
@@ -338,6 +418,8 @@ def core_aluno_dia_gerenciar(request, idDia):
 
 
 def core_aluno_atualizar(request, id):
+    if not request.user.is_authenticated:
+        return redirect(user_login)
     usuario = custom_user.objects.get(id=id)
 
     if request.method == "POST":
@@ -356,6 +438,8 @@ def core_aluno_atualizar(request, id):
 def core_aluno_rota(request, idDia):
     # dia = Dia.objects.get(id=idDia)
     # usuario = request.user
+    if not request.user.is_authenticated:
+        return redirect(user_login)
 
     dia = Dia.objects.get(id=idDia)
     alunos = Aluno.objects.filter(dia=dia)
