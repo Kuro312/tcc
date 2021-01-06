@@ -8,30 +8,32 @@
             <ul class="navbar-nav">
                 
                 <!--Home-->
+                
+                <li class="nav-item 
                 {% if ativo == 'home'  %}
-                    <li class="nav-item active">
-                {% else %}
-                    <li class="nav-item">
-                {% endif %}
-                    <a class="nav-link" href={% url 'core_aluno_home' %}>Home <span class="sr-only">(current)</span></a>
+                    active
+                
+                {% endif %}">
+                
+                    <a class="nav-link" href={% url 'core_aluno_home' %}>Home</a>
                 </li>
                 
 
                 <!--Turmas-->
-                {% if ativo == 'turma'  %}
-                    <li class="nav-item active">
-                {% else %}
-                    <li class="nav-item">
-                {% endif %}
+                
+                <li class="nav-item 
+                
+                {% if ativo == 'turma' %}
+                    active
+                {% endif %}">
+            
                     <a class="nav-link" href={% url 'core_aluno_lista_turma' %}>Turma</a>
                 </li>
 
                 <!--Update-->
-                {% if ativo == 'update'  %}
-                    <li class="nav-item active">
-                {% else %}
-                    <li class="nav-item">
-                {% endif %}
+                
+                <li class="nav-item {% if ativo == 'update'  %} active {% endif %}">
+                
                     <a class="nav-link" href={% url 'core_aluno_atualizar' user.id %}>Atualizar</a>
                 </li>
 
@@ -56,11 +58,10 @@
                 
 
                 <!--Home-->
-               {% if ativo == 'home'  %}
-                    <li class="nav-item active dropdown">
-                {% else %}
-                    <li class="nav-item ">
-                {% endif %}
+              
+                <li class="nav-item  {% if ativo == 'home'  %} active {% endif %}">
+                
+                
                     <a class="nav-link" href={% url 'core_home' %}>Home <span class="sr-only">(current)</span></a>
                 </li> 
 
@@ -71,21 +72,19 @@
 
 
                 <!--Turma-->
-                {% if ativo == 'turma'  %}
-                    <li class="nav-item active">
-                {% else %}
-                    <li class="nav-item">
-                {% endif %}
+                
+                <li class="nav-item {% if ativo == 'turma'  %} active {% endif %}">
+                
+                
                     <a class="nav-link" href={% url 'core_turma_lista' %}>Turma</a>
                 </li>
 
 
                 <!--Update-->
-                {% if ativo == 'update'  %}
-                    <li class="nav-item active">
-                {% else %}
-                    <li class="nav-item">
-                {% endif %}
+                
+                <li class="nav-item {% if ativo == 'update'  %} active {% endif %}">
+                
+                
                     <a class="nav-link" href={% url 'core_motorista_atualizar' user.id %}>Atualizar</a>
                 </li>
                 <!--Sair-->
