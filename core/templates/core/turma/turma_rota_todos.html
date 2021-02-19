@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
-
-
+{% block titulo %}Rota geral{% endblock titulo %}
 {% block conteudo %}
-
     <div class="row"><!--Menu-->
         <div class="col justify-content-center d-flex">
             {% include 'menu.html' with ativo='turma'%}   
@@ -11,7 +9,7 @@
     </div>
     <div class="row"><!-- Titulo -->
         <div class="col justify-content-center d-flex">
-            <h3>Rota</h3>
+            <h3>Rota geral</h3>
         </div>
     </div>
     <div class="row"><!-- mapa -->
@@ -98,5 +96,4 @@
             </script>
         </div>
     </div>
-
 {% endblock conteudo %}

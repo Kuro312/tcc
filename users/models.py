@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from mapbox_location_field.models import LocationField
 import datetime
+from django.utils import timezone
 # Create your models here.
 
 
@@ -25,4 +26,4 @@ class custom_user(AbstractUser):
         "placeholder": "Pick a location on map below",
     })
     data_nascimento = models.DateField(
-        auto_now=False, auto_now_add=False, null=False, blank=False, default=datetime.date.today())
+        auto_now=False, auto_now_add=False, null=False, blank=False, default=timezone.now())

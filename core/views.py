@@ -13,6 +13,8 @@ from core.models import (
     Dia,
     Aluno,
 )
+
+from django.contrib.auth.decorators import login_required
 from users.models import custom_user
 from users.views import (
     user_login,
@@ -26,9 +28,8 @@ from decouple import config
 # home
 
 
+@login_required
 def core_home(request):
-    if request.user.is_anonymous:
-        return redirect(user_login)
     c = {
 
     }
@@ -39,9 +40,8 @@ def core_home(request):
 #  listagem das turmas do motorista logado
 
 
+@login_required
 def core_turma_lista(request):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
 
     turmas = Turma.objects.filter(motorista=request.user)
     c = {
@@ -52,10 +52,9 @@ def core_turma_lista(request):
 
 
 # cadastrar turma
-
+@login_required
 def core_turma_cadastrar(request):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
+
     if request.method == 'POST':
         # u = Turma(motorista=request.user,nome = request.POST['nome'], local = request.POST['local'])
 
@@ -77,9 +76,9 @@ def core_turma_cadastrar(request):
 # gerenciamento de uma turma especifica
 
 
+@login_required
 def core_gerenciar_turma(request, id):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
+
     turma = Turma.objects.get(id=id)
     dias = Dia.objects.filter(turma=turma)
     if request.method == 'POST':
@@ -211,9 +210,9 @@ def core_turma_dia_gerenciar(request, idDia, idAluno):
     return render(request, 'core/turma/turma_dia_gerenciar.html', c)
 
 
+@login_required
 def core_turma_dia_rota(request, idDia):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
+
     dia = Dia.objects.get(id=idDia)
     alunos = Aluno.objects.filter(dia=dia).filter(vai=True)
     local_motorista = dia.turma.motorista.local
@@ -292,14 +291,32 @@ def core_apagar_aluno(request, idTurma, idAluno):
     return render(request, 'core/index.html')
 
 
+def core_rota_todos(request, idTurma):
+    turma = Turma.objects.get(id=idTurma)
+    alunos = turma.alunos.all()
+
+    local_motorista = turma.motorista.local
+    destino = turma.local
+    locais = [aluno.local for aluno in alunos]
+
+    mapbox_key = config('MAPBOX_KEY')
+    c = {
+        'alunos': alunos,
+        'locais': locais,
+        'local_motorista': local_motorista,
+        'destino': destino,
+        'mapbox_key': mapbox_key,
+    }
+
+    return render(request, 'core/turma/turma_rota_todos.html', c)
 # alunos
 
 # home do aluno
 
 
+@login_required
 def core_aluno_home(request):
-    if not request.user.is_authenticated:
-        return redirect(user_login)
+
     c = {
 
     }
@@ -442,7 +459,7 @@ def core_aluno_rota(request, idDia):
         return redirect(user_login)
 
     dia = Dia.objects.get(id=idDia)
-    alunos = Aluno.objects.filter(dia=dia)
+    alunos = Aluno.objects.filter(dia=dia).filter(vai=True)
     local_motorista = dia.turma.motorista.local
     destino = dia.turma.local
     locais = [aluno.usuario.local for aluno in alunos]

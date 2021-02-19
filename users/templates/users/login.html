@@ -1,29 +1,51 @@
 {% extends 'base.html' %}
 
-
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+{% endblock extra_head %}
 
 {% block conteudo %}
     {% load bootstrap %}
-    <div class="row  mt-5">
-        <div class="col justify-content-center d-flex">
-            <h3>Login</h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col ">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form|bootstrap }}
-                <input type="submit" value="Logar">
-            </form>
+   
+    <div class="row" style="margin-top:100px;">
+        <div class="col-sm-12 justify-content-center d-flex">
+            <div class="formulario tamanhoP">
+                <div class="center">
+                    <h3>Login</h3>
+                </div>
+                
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="conteudo">
+                        {{form|bootstrap }}
+                        <input type="submit" value="Logar" class="btn btn-primary">
+                    </div>
+                    
+                </form>
+                <div class="center">
+                    <a href={% url 'user_register' %}>Registrar</a>
+                </div>
+                
+            </div>
         </div>
 
     </div>
+
     <div class="row">
-        <div class="col">
-            <a href={% url 'user_register' %}>Registrar</a>
+        <div class="col-sm-12">
+            
+           
+           {% if error %}
+                <div class="center">
+                    Login não existe
+                </div>
+               
+           {% endif %}
+               
         </div>
     </div>
+    
     
     
 {% endblock conteudo %}

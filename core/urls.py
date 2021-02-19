@@ -21,6 +21,7 @@ from core.views import (
     core_aluno_rota,
     core_turma_dia_rota_volta,
     core_apagar_aluno,
+    core_rota_todos,
 )
 urlpatterns = [
     # motorista
@@ -63,7 +64,8 @@ urlpatterns = [
     path('motorista/turma/<int:idTurma>/aluno/<int:idAluno>/apagar',
          core_apagar_aluno, name='core_apagar_aluno'),
 
-
+    path('motorista/turma/<int:idTurma>/rota/geral',
+         core_rota_todos, name='core_rota_todos'),
     # aluno
     # home do aluno
     path('aluno', core_aluno_home, name='core_aluno_home'),

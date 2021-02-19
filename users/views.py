@@ -16,7 +16,7 @@ def sair(request):
 
 # login
 def user_login(request):
-
+    form = UserLoginForm()
     if request.method == 'POST':
         u = authenticate(
             username=request.POST['username'], password=request.POST['password'])
@@ -26,9 +26,12 @@ def user_login(request):
                 return redirect('core_aluno_home')
             elif u.permissao == 2:
                 return redirect('core_home')
+        c = {
+            'form': form,
+            'error': True
+        }
+        return render(request, 'users/login.html', c)
 
-        return redirect('user_login')
-    form = UserLoginForm()
     c = {
         'form': form,
     }

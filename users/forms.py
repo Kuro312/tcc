@@ -22,6 +22,9 @@ class UserForm(ModelForm):
         widgets = {
             'password': forms.PasswordInput(),
             'data_nascimento': DateInput(format='%Y-%m-%d'),
+            # 'username': forms.TextInput(attrs={
+
+            # })
         }
 
     def save(self, commit=True):
@@ -32,11 +35,6 @@ class UserForm(ModelForm):
             user.save()
         return user
 
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['username'].widget = forms.TextInput(
-            attrs={})
-
     permissao = forms.ChoiceField(choices=[(1, 'Aluno'), (2, 'Motorista')])
 
 
@@ -46,4 +44,5 @@ class UserLoginForm(ModelForm):
         fields = ['username', 'password']
         widgets = {
             'password': forms.PasswordInput(),
+            'username': forms.TextInput(attrs={'class': 'username_class'}),
         }

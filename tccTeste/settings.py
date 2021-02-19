@@ -147,3 +147,8 @@ STATICFILES_DIRS = [
 ]
 MAPBOX_KEY = config('MAPBOX_KEY')
 REFERRER_POLICY = 'origin'
+
+
+LOGIN_URL = 'user_login'
+
+#LOGOUT_REDIRECT_URL = 'core_home'
