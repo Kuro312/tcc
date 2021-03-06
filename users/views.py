@@ -41,7 +41,7 @@ def user_login(request):
 # registrar
 def user_register(request):
     if request.method == 'POST':
-        print(request.POST)
+
         form = UserForm(request.POST)
         #form.permissao = request.POST['permissao']
         if form.is_valid():
