@@ -143,12 +143,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 AUTH_USER_MODEL = 'users.custom_user'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'statics'),
+    os.path.join(BASE_DIR, 'static'),
 ]
+
 MAPBOX_KEY = config('MAPBOX_KEY')
 REFERRER_POLICY = 'origin'
 
 
-LOGIN_URL = 'user_login'
+LOGIN_URL = 'user:user_login'
 
 #LOGOUT_REDIRECT_URL = 'core_home'

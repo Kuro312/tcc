@@ -21,12 +21,14 @@
                 <thead>
                     <th>Nome</th>
                     <th>Gerenciar</th>
+                    <th>Sair</th>
                 </thead>
                 <tbody>
                     {% for turma in turmas %}
                         <tr>
                             <td>{{turma}}</td>
                             <td><a href={% url 'core_aluno_turma_gerenciar' turma.id %}>gerenciar</a></td>
+                            <td><a href={% url 'core_aluno_turma_sair' turma.id %}>Sair</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>

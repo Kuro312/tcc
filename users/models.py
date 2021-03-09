@@ -11,7 +11,7 @@ class custom_user(AbstractUser):
     # 2 -> aluno
     permissao = models.IntegerField(default=2)
     telefone = models.CharField(max_length=50,  default='1')
-    local = LocationField(default=(0, 0), null=False, map_attrs={
+    local = LocationField(default=(1.2, 1.2), null=False, map_attrs={
         "style": "mapbox://styles/mapbox/outdoors-v11",
         "zoom": 13,
         "center": [17.031645, 51.106715],
@@ -26,4 +26,4 @@ class custom_user(AbstractUser):
         "placeholder": "Pick a location on map below",
     })
     data_nascimento = models.DateField(
-        auto_now=False, auto_now_add=False, null=False, blank=False, default=timezone.now())
+        auto_now=False, auto_now_add=False, null=False, blank=False, default=timezone.now)

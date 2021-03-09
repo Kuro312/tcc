@@ -11,7 +11,7 @@ import datetime
 # sair
 def sair(request):
     logout(request)
-    return redirect('user_login')
+    return redirect('user:user_login')
 
 
 # login
@@ -40,19 +40,28 @@ def user_login(request):
 
 # registrar
 def user_register(request):
+    form = UserForm()
     if request.method == 'POST':
 
         form = UserForm(request.POST)
         #form.permissao = request.POST['permissao']
+        valido = False
         if form.is_valid():
-
+            valido = True
             u = form.save(commit=False)
             u.date_joined = datetime.date.today()
             u.permissao = request.POST['permissao']
             u.save()
-        return redirect('user_login')
+        c = {
+            'form': form,
+        }
+        if valido:
+            c['sucesso'] = True
+        else:
+            c['erro'] = True
+        return render(request, 'users/register.html', c)
+        # return redirect('user_login')
 
-    form = UserForm()
     c = {
         'form': form,
     }

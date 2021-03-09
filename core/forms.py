@@ -8,6 +8,7 @@ from core.models import (
 )
 from django import forms
 import datetime
+from django.utils import timezone
 
 
 class DateInput(forms.DateInput):
@@ -32,7 +33,7 @@ class GerenciarTurmaForm(forms.Form):
 
 class DiaForm(forms.Form):
     data = forms.DateField(
-        required=True, widget=DateInput(format='%Y-%m-%dT%H:%M'))
+        required=True, widget=DateInput(format='%Y-%m-%dT%H:%M'), initial=timezone.now().strftime('%Y-%m-%d'))
 
 # alunos
 

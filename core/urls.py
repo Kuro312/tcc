@@ -22,6 +22,7 @@ from core.views import (
     core_turma_dia_rota_volta,
     core_apagar_aluno,
     core_rota_todos,
+    core_aluno_turma_sair,
 )
 urlpatterns = [
     # motorista
@@ -48,7 +49,7 @@ urlpatterns = [
     # gerenciar um dia especifico
     path('motorista/turma/dia/<int:id>',
          core_gerenciar_dia, name='core_gerenciar_dia'),
-
+    # gerenciar um aluno menor de idade
     path('motorista/turma/dia/<int:idDia>/aluno/<int:idAluno>',
          core_turma_dia_gerenciar, name='core_turma_dia_gerenciar'),
 
@@ -93,4 +94,8 @@ urlpatterns = [
 
 
     path('aluno/dia/<int:idDia>/rota', core_aluno_rota, name='core_aluno_rota'),
+
+    # aluno sair de turma
+    path('aluno/turma/<int:idTurma>', core_aluno_turma_sair,
+         name='core_aluno_turma_sair'),
 ]
