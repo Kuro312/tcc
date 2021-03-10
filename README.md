@@ -4,7 +4,7 @@ Sistema para auxiliar motoristas de van no gerenciamento de suas turmas, o siste
 ## Framework usado
 
 Construido com
--Django
+- [Django]
 
 
 
