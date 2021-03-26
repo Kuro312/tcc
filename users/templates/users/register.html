@@ -19,13 +19,13 @@
     </div>
     <div class="row mt-4 mb-5"><!--form-->
         <div class="col-sm-12 justify-content-center d-flex">
-            <div class="formulario tamanhoG">
+            <div class="formulario tamanhoP">
                 <form action="" method="post">
-                {% csrf_token %}
-                <div class="conteudo">
-                    {{form|bootstrap}}
-                    <input type="submit" value="Criar" class="btn btn-success">
-                </div>
+                    {% csrf_token %}
+                    <div class="conteudo">
+                        {{form|bootstrap}}
+                        <input type="submit" value="Criar" class="btn btn-success">
+                    </div>
                 
                 </form>
                 
@@ -39,12 +39,11 @@
     <div class="row">
         <div class="col-sm-12 justify-content-center d-flex">
             <div class="tamanhoP">
-            
-            {% if sucesso %}
-                <p class="center p-3 mb-2 bg-success text-white">Usuario cadastrado com sucesso</p>
-            {% elif erro %}
-                <p class="center p-3 mb-2 bg-danger text-white">Erro ao cadastrar o usuario</p>
-            {% endif %}
+                {% if sucesso == True %}
+                    <p class="center p-3 mb-2 bg-success text-white">Usuario cadastrado com sucesso</p>
+                {% elif sucesso  == False %}
+                    <p class="center p-3 mb-2 bg-danger text-white">Erro ao cadastrar o usuario</p>
+                {% endif %}
                 
             
             </div>

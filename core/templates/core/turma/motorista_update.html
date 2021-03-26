@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+{% endblock extra_head %}
+
 
 {% block conteudo %}
     {% load bootstrap %}
@@ -17,14 +22,36 @@
             <h3>Update motorista {{usuario.username}}</h3>
         </div>
     </div>
-    <div class="row">
-        <div class="col justify-content-center d-flex">
-            <form action="" method="post">
-                {% csrf_token %}
-                {{form | bootstrap}}
-                <input type="submit" value="enviar">
-            </form>
+
+
+    <div class="row mt-4 mb-5">
+        <div class="col-sm-12 justify-content-center d-flex">
+            <div class="formulario tamanhoP">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="conteudo">
+                        {{form | bootstrap}}
+                        <input type="submit" value="enviar" class="btn btn-primary">
+                    </div>
+                    
+                </form>
+            </div>
+            
             {{form.media}}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 justify-content-center d-flex">
+            <div class="tamanhoP">
+                {% if sucesso == True %}
+                    <p class="center p-3 mb-2 bg-success text-white">Usuario atualizado com sucesso</p>
+                {% elif sucesso  == False %}
+                    <p class="center p-3 mb-2 bg-danger text-white">Erro ao atualizar o usuario</p>
+                {% endif %}
+                
+            
+            </div>
         </div>
     </div>
 

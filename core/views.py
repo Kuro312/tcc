@@ -79,7 +79,9 @@ def core_turma_cadastrar(request):
 @login_required
 def core_gerenciar_turma(request, id):
     turma = Turma.objects.get(id=id)
-    #dias = Dia.objects.filter(turma=turma)
+    alunos = turma.alunos.all()
+    form = GerenciarTurmaForm()
+
     if request.method == 'POST':
 
         nome = request.POST['username']
@@ -87,13 +89,23 @@ def core_gerenciar_turma(request, id):
             u = custom_user.objects.get(username=nome)
         except custom_user.DoesNotExist:
             u = None
-        if u is not None:
+        print(u.permissao)
+        c = {
+            'turma': turma,
+            'alunos': alunos,
+            'form': form,
+        }
+        if u is not None and u.permissao == 1 and u not in turma.alunos.all():  # Adiciona aluno na turma
+
             turma.alunos.add(u)
+            c['sucesso'] = True
+            return render(request, 'core/turma/gerenciar_turma.html', c)
+        else:  # não adiciona aluno na turma
+            c['sucesso'] = False
+            return render(request, 'core/turma/gerenciar_turma.html', c)
 
         return redirect('core_gerenciar_turma', id)
 
-    alunos = turma.alunos.all()
-    form = GerenciarTurmaForm()
     c = {
         'turma': turma,
         'alunos': alunos,
@@ -131,7 +143,7 @@ def core_lista_dias(request, id):
         dia = Dia(data=request.POST['data'], turma=turma)
         dia.save()
         return redirect('core_lista_dias', id)
-    #dias2 = Dia.objects.filter(turma=turma).filter(ativo=True)
+    # dias2 = Dia.objects.filter(turma=turma).filter(ativo=True)
     dias = turma.dia_turmas.all().filter(ativo=True)
     form = DiaForm(
     )
@@ -261,14 +273,25 @@ def core_turma_dia_rota_volta(request, idDia):
 @login_required
 def core_motorista_atualizar(request, id):
     usuario = custom_user.objects.get(id=id)
+    form = UsuarioUpdate(instance=usuario)
 
     if request.method == "POST":
-        print(request.POST)
-        form = UsuarioUpdate(request.POST, instance=usuario)
-        if form.is_valid():
-            form.save()
-        return redirect('core_aluno_home')
-    form = UsuarioUpdate(instance=usuario)
+
+        f = UsuarioUpdate(request.POST, instance=usuario)
+        valido = False
+        if f.is_valid():
+            valido = True
+            f.save()
+        # atualiza as informações para mandar para a tela
+        usuario = custom_user.objects.get(id=id)
+        form = UsuarioUpdate(instance=usuario)
+        # Envia um novo render para alem de recarregar a pagina informar se a atualização foi realizada com sucesso
+        c2 = {
+            'form': form,
+            'usuario': usuario,
+            'sucesso': valido,
+        }
+        return render(request, 'core/turma/motorista_update.html', c2)
     c = {
         'form': form,
         'usuario': usuario,
@@ -336,7 +359,7 @@ def core_aluno_home(request):
 @login_required
 def core_aluno_lista_turma(request):
 
-    #turmas = Turma.objects.all().filter(alunos=request.user)
+    # turmas = Turma.objects.all().filter(alunos=request.user)
     turmas = request.user.turma_alunos.all()
     c = {
         'turmas': turmas,

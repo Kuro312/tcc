@@ -7,8 +7,8 @@ from django.utils import timezone
 
 
 class custom_user(AbstractUser):
-    # 1 -> motorista
-    # 2 -> aluno
+    # 1 -> aluno
+    # 2 -> motorista
     permissao = models.IntegerField(default=2)
     telefone = models.CharField(max_length=50,  default='1')
     local = LocationField(default=(1.2, 1.2), null=False, map_attrs={
@@ -27,3 +27,4 @@ class custom_user(AbstractUser):
     })
     data_nascimento = models.DateField(
         auto_now=False, auto_now_add=False, null=False, blank=False, default=timezone.now)
+    email = models.EmailField(unique=True)

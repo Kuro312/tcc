@@ -126,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -153,3 +153,10 @@ REFERRER_POLICY = 'origin'
 LOGIN_URL = 'user:user_login'
 
 #LOGOUT_REDIRECT_URL = 'core_home'
+
+# configuração para envio de email
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+
+DEFAULT_FROM_EMAIL = 'enviaremail312@gmail.com'

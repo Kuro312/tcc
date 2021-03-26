@@ -18,9 +18,23 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row"><!--Link para ver a rota geral-->
         <div class="col-sm-12 justify-content-center d-flex">
             <h4><a href="{% url 'core_rota_todos' turma.id %}">Ver a rota geral</a></h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 justify-content-center d-flex">
+            <div class="tamanhoP">
+                {% if sucesso == True %}
+                    <p class="center p-3 mb-2 bg-success text-white">Aluno adicionado a turma com sucesso a turma</p>
+                {% elif sucesso  == False %}
+                    <p class="center p-3 mb-2 bg-danger text-white">Erro ao adicionar aluno na turma</p>
+                {% endif %}
+                
+            
+            </div>
         </div>
     </div>
 

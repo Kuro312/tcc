@@ -1,16 +1,21 @@
 from django.shortcuts import render, redirect
 from users.forms import UserForm, UserLoginForm
 from users.models import custom_user
-from django.contrib.auth import (authenticate,
-                                 login,
-                                 logout,)
+from django.contrib.auth import (
+    authenticate,
+    login,
+    logout,
+)
+
 import datetime
+
 # Create your views here.
 
 
 # sair
 def sair(request):
     logout(request)
+
     return redirect('user:user_login')
 
 
@@ -43,14 +48,15 @@ def user_register(request):
     form = UserForm()
     if request.method == 'POST':
 
-        form = UserForm(request.POST)
+        f = UserForm(request.POST)
         #form.permissao = request.POST['permissao']
         valido = False
-        if form.is_valid():
+        if f.is_valid():
             valido = True
-            u = form.save(commit=False)
+            u = f.save(commit=False)
             u.date_joined = datetime.date.today()
-            u.permissao = request.POST['permissao']
+            # request.POST['permissao']
+            u.permissao = f.cleaned_data['permissao']
             u.save()
         c = {
             'form': form,
@@ -58,7 +64,7 @@ def user_register(request):
         if valido:
             c['sucesso'] = True
         else:
-            c['erro'] = True
+            c['sucesso'] = False
         return render(request, 'users/register.html', c)
         # return redirect('user_login')
 
