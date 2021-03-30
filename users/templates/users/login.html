@@ -11,7 +11,7 @@
     <div class="row" style="margin-top:100px;">
         <div class="col-sm-12 justify-content-center d-flex">
             <div class="formulario tamanhoP">
-                <div class="center">
+                <div class="titulo">
                     <h3>Login</h3>
                 </div>
                 
@@ -36,16 +36,14 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12 justify-content-center d-flex">
+            <div class="tamanhoP">
+                {% if sucesso == False %}
+                    <p class="center p-3 mb-2 bg-danger text-white">Login não existe</p>
+                {% endif %}
+                
             
-           
-           {% if error %}
-                <div class="center">
-                    Login não existe
-                </div>
-               
-           {% endif %}
-               
+            </div>
         </div>
     </div>
     

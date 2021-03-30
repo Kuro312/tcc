@@ -33,7 +33,7 @@ def user_login(request):
                 return redirect('core_home')
         c = {
             'form': form,
-            'error': True
+            'sucesso': False
         }
         return render(request, 'users/login.html', c)
 

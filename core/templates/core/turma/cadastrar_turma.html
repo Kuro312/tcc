@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block extra_head %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
+{% endblock extra_head %}
 
 {% block conteudo %}
     {% load bootstrap %}
@@ -11,19 +15,25 @@
             {% include 'menu.html' with ativo='turma'%}
         </div>
     </div>
-    <div class="row">
-        <div class="col justify-content-center d-flex">
-            <h3>Cadastrar turma</h3>
-        </div>
-    </div>
+    
 
     <div class="row mt-4 mb-5 "><!--formulario de cadastro-->
         <div class="col justify-content-center d-flex">
-            <form action="" method="post"  style="width:80%">
-                {% csrf_token %}
-                {{form|bootstrap}}
-                <input type="submit" value="Criar">
-            </form>
+            <div class="formulario tamanhoP">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="titulo">
+                        <h3>Cadastrar turma</h3>
+                    </div>
+                    <div class="conteudo">
+                        {{form|bootstrap}}
+                        <input type="submit" value="Criar">
+                    
+                    </div>
+                    
+                </form>
+            
+            </div>
              {{ form.media }}
         </div>
     </div>

@@ -17,11 +17,7 @@
             {% include 'menu.html' with ativo='update' %}
         </div>
     </div>
-    <div class="row">
-        <div class="col justify-content-center d-flex">
-            <h3>Update motorista {{usuario.username}}</h3>
-        </div>
-    </div>
+    
 
 
     <div class="row mt-4 mb-5">
@@ -29,6 +25,9 @@
             <div class="formulario tamanhoP">
                 <form action="" method="post">
                     {% csrf_token %}
+                    <div class="titulo">
+                        <h3>Update motorista {{usuario.username}}</h3>
+                    </div>
                     <div class="conteudo">
                         {{form | bootstrap}}
                         <input type="submit" value="enviar" class="btn btn-primary">
