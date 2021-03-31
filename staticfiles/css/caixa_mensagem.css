@@ -1,0 +1,17 @@
+
+
+.caixa_mensagem{
+    background-color: rgb(36, 102, 187);
+
+}
+
+
+.caixa_mensagem .mensagem{
+    color: white;
+    padding: 20px;
+}
+
+
+.caixa_mensagem .link{
+
+}
