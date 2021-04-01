@@ -14,6 +14,8 @@ from pathlib import Path
 from decouple import config
 from dj_database_url import parse as dburl
 import os
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -156,8 +158,17 @@ LOGIN_URL = 'user:user_login'
 #LOGOUT_REDIRECT_URL = 'core_home'
 
 # configuração para envio de email
-EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
-SENDGRID_API_KEY = config('SENDGRID_API_KEY')
-SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+# SENDGRID_API_KEY = config('SENDGRID_API_KEY')
+# SENDGRID_SANDBOX_MODE_IN_DEBUG = False
+# SENDGRID_ECHO_TO_STDOUT = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'enviaremail312@gmail.com'
+EMAIL_HOST_PASSWORD = 'Carol2302'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = 'enviaremail312@gmail.com'
