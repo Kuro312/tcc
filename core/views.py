@@ -89,7 +89,7 @@ def core_gerenciar_turma(request, id):
             u = custom_user.objects.get(username=nome)
         except custom_user.DoesNotExist:
             u = None
-        print(u.permissao)
+
         c = {
             'turma': turma,
             'alunos': alunos,
@@ -127,8 +127,9 @@ def core_apagar_turma(request, id):
 
     c = {
         'turma': turma,
+        'message': f'Deseja mesmo apagar a turma {turma}'
     }
-    return render(request, 'core/turma/turma_apagar_confirm.html', c)
+    return render(request, 'delete_confirm.html', c)
 
 
 # lista dos dias de uma turma
