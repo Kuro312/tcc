@@ -2,7 +2,7 @@
 
 {% block extra_head %}
     {% load static %}
-    <!--<link rel="stylesheet" href="{% static 'css/table.css' %}">-->
+    <link rel="stylesheet" href="{% static 'css/table.css' %}">
 {% endblock extra_head %}
 
 {% block titulo %}
@@ -20,14 +20,14 @@
     </div>
 
     <div class="row">
-        <div class="col justify-content-center d-flex">
+        <div class="col-sm-12 justify-content-center d-flex">
             <a href={% url 'core_turma_cadastrar' %} class="btn btn-primary">Cadastrar</a>
         </div>
     </div>
 
     <div class="row"><!--tabela-->
         <div class="col-sm-12 justify-content-center d-flex">
-            <table class="text-center table table-dark table-striped table-bordered table-hover" style="width:100%;">
+            <table class="text-center table table-dark table-striped table-bordered table-hover tabela">
                 <thead>
                     <tr>
                         <th>motorista</th>
