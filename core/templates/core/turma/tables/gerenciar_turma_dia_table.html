@@ -1,0 +1,111 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+
+<table class="table text-center table-dark table-striped table-bordered table-hover tabela">
+    <thead>
+        <th>Nome</th>
+        <th>vai</th>
+        <th>volta</th>
+        <th>Esta na ida</th>
+        <th>Esta na volta</th>
+        <th>Gerenciar menor</th>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+            <tr>
+                <td>
+                    {{aluno.usuario.username}}
+                </td>
+                <td>
+                    {% if aluno.vai %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                      <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if aluno.volta %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                      <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if aluno.esta_na_ida %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                       <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if aluno.esta_na_volta %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-times-circle"></i>
+                    {% endif %}
+                </td>
+                <td>
+                    
+                    {% if aluno.menor_de_idade %}
+                        <a href={% url 'core_turma_dia_gerenciar' dia.id  aluno.id %}>Gerenciar</a>
+                    {% endif %}
+                        
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<div class="table_mobile">
+    {% for aluno in alunos %}
+        <dl>
+            <dt>{{aluno.usuario.username}}</dt>
+        
+        
+            <dd>
+                Vai
+                {% if aluno.vai %}
+                    <i class="fas fa-check-circle"></i>
+                {% else %}
+                    <i class="fas fa-times-circle"></i>
+                {% endif %}
+            </dd>
+
+            <dd>
+                Volta
+                {% if aluno.volta %}
+                    <i class="fas fa-check-circle"></i>
+                {% else %}
+                    <i class="fas fa-times-circle"></i>
+                {% endif %}
+            </dd>
+
+            <dd>
+                Está na ida
+                {% if aluno.esta_na_ida %}
+                    <i class="fas fa-check-circle"></i>
+                {% else %}
+                    <i class="fas fa-times-circle"></i>
+                {% endif %}
+            </dd>
+
+            <dd>
+                Está na volta
+                {% if aluno.esta_na_volta %}
+                    <i class="fas fa-check-circle"></i>
+                {% else %}
+                    <i class="fas fa-times-circle"></i>
+                {% endif %}
+            </dd>
+
+            <dd>
+                {% if aluno.menor_de_idade %}
+                    <a href={% url 'core_turma_dia_gerenciar' dia.id  aluno.id %}>Gerenciar</a>
+                {% endif %}
+            
+            </dd>
+        </dl>
+
+    {% endfor %}
+</div>

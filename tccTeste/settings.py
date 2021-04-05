@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['localhost', 'suportetransporte.herokuapp.com',
-                 'tcctransporte.herokuapp.com']
+                 'tcctransporte.herokuapp.com', '192.168.1.101']
 
 
 # Application definition

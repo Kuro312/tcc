@@ -1,0 +1,50 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/table.css' %}">
+
+<table class='table text-center table-dark table-striped table-bordered table-hover tabela'>
+    <thead>
+        <tr>
+            <td>Nome</td>
+            <td>Apagar</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+            <tr>
+                <td>
+                    {{aluno.username}}
+                </td>
+
+                <td>
+                <form action="{% url 'core_apagar_aluno' turma.id aluno.id%}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Apagar" class="btn btn-danger">
+                </form>
+                
+                
+                
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+
+<div class="table_mobile">
+    {% for aluno in alunos %}
+        <dl>
+            <dt>
+                {{aluno.username}}
+            </dt>
+
+            <dd>
+                <form action="{% url 'core_apagar_aluno' turma.id aluno.id%}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Apagar" class="btn btn-danger">
+                </form>
+            </dd>
+
+
+        </dl>
+    {% endfor %}
+</div>

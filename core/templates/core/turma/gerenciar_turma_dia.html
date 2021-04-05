@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 
+
+
+
+{% block titulo %}
+    Gerenciar turma dia
+{% endblock titulo %}
+
 {% block conteudo %}
     <div class="row"><!--Menu-->
         <div class="col justify-content-center d-flex">
@@ -25,7 +32,7 @@
 
     <div class="row"><!--Tabela-->
         <div class="col">
-            {% include 'core/turma/tables/table_alunos.html'  %}
+            {% include 'core/turma/tables/gerenciar_turma_dia_table.html'  %}
         </div>
     </div>
 

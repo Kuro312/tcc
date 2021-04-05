@@ -385,6 +385,7 @@ def core_aluno_turma_gerenciar(request, idTurma):
         'turma': turma,
         'dias': dias,
         'alunos': alunos,
+
         'alunos_dias': alunos_dias,
     }
     return render(request, 'core/aluno/turma/aluno_turma_gerenciar.html', c)

@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 
-
+{% block titulo %}
+    Aluno turma gerenciar
+{% endblock titulo %}
 {% block conteudo %}
     <div class="row"><!--Menu-->
         <div class="col justify-content-center d-flex">
@@ -16,122 +18,7 @@
 
     <div class="row"><!--table-->
         <div class="col justify-content-center d-flex">
-            <table class='table text-center'>
-                <thead>
-                    <th>Data</th>
-                    <th>Gerenciar</th>
-                    <th>Vai</th>
-                    <th>Volta</th>
-                    <th>Esta na ida</th>
-                    <th>Esta na volta</th>
-                    <th>Rota</th>
-                </thead>
-                <tbody>
-                    {% for dia in dias %}
-                        <tr>
-                            <td>{{dia.data}}</td>
-                            <td><a href={% url 'core_aluno_dia_gerenciar' dia.id %}>gerenciar</a></td>
-                            <td><!--coluna indicando se o aluno vai-->
-                                {% for aluno in alunos %}
-                                    
-                                    {% if aluno.dia == dia %}
-                                        
-                                        {% if aluno.vai %}
-                                            vai
-                                        {% else %}
-                                            não vai
-                                        {% endif %}
-                                            
-                                    {% endif %}
-                                        
-                                {% endfor %}
-                                {% if dia not in alunos_dias %}
-                                    indefinido
-                                {% endif %}
-                            </td>
-                            <td><!--coluna indicando se o aluno volta-->
-                                
-                                {% for aluno in alunos %}
-                                    
-                                    
-                                        
-                                    {% if aluno.dia == dia %}
-                                        
-                                        {% if aluno.volta %}
-                                            volta
-                                        {% elif aluno.volta is False %}
-                                            não volta
-                                        
-                                        {% endif %}
-                                            
-                                    {% endif %}
-                                    
-                                    
-                                        
-                                {% endfor %}
-                                
-                                {% if dia not in alunos_dias %}
-                                    indefinido
-                                {% endif %}
-                                    
-                            </td>
-                            <td><!--coluna indicando se o aluno esta na ida-->
-                                
-                                {% for aluno in alunos %}
-                                    
-                                    
-                                        
-                                    {% if aluno.dia == dia %}
-                                        
-                                        {% if aluno.esta_na_ida %}
-                                            esta
-                                        {% elif aluno.esta_na_ida is False %}
-                                            não esta
-                                        
-                                        {% endif %}
-                                            
-                                    {% endif %}
-                                    
-                                    
-                                        
-                                {% endfor %}
-                                
-                                {% if dia not in alunos_dias %}
-                                    indefinido
-                                {% endif %}
-                                    
-                            </td>
-                            <td><!--coluna indicando se o aluno esta na volta-->
-                                
-                                {% for aluno in alunos %}
-                                    
-                                    
-                                        
-                                    {% if aluno.dia == dia %}
-                                        
-                                        {% if aluno.esta_na_volta %}
-                                            esta
-                                        {% elif aluno.esta_na_volta is False %}
-                                            não esta
-                                        
-                                        {% endif %}
-                                            
-                                    {% endif %}
-                                    
-                                    
-                                        
-                                {% endfor %}
-                                
-                                {% if dia not in alunos_dias %}
-                                    indefinido
-                                {% endif %}
-                                    
-                            </td>
-                            <td><a href={% url 'core_aluno_rota' dia.id %}>Rota</a></td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'core/aluno/turma/tables/aluno_turma_gerenciar_table.html' %}
         </div>
     </div>
 

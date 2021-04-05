@@ -5,6 +5,10 @@
     <link rel="stylesheet" href="{% static 'users/css/form.css' %}">
 {% endblock extra_head %}
 
+{% block titulo %}
+    Gerenciar turma
+{% endblock titulo %}
+
 {% block conteudo %}
     {% load bootstrap %}
 
@@ -41,7 +45,7 @@
         </div>
     </div>
 
-    <div class="row"><!--Formulario-->
+    <div class="row mb-3 "><!--Formulario-->
         <div class="col-sm-12 d-flex justify-content-center">
             <div class="formulario" style="width:350px;">
                 <div class="titulo">
@@ -53,7 +57,7 @@
 
                     <div class="conteudo">
                         {{form|bootstrap}}
-                        <input type="submit" value="Adicionar aluno" class="btn btn-success">
+                        <input type="submit" value="Adicionar" class="btn btn-success">
                     </div>
                     
                 </form>
@@ -64,32 +68,7 @@
 
     <div class="row"><!--tabela-->
         <div class="col-sm-12">
-            <table class='table text-center'>
-                <thead>
-                    <tr>
-                        <td>Nome</td>
-                        <td>Apagar</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for aluno in alunos %}
-                        <tr>
-                            <td>
-                                {{aluno.username}}
-                            </td>
-
-                            <td>
-                            <form action="{% url 'core_apagar_aluno' turma.id aluno.id%}" method="POST">
-                                {% csrf_token %}
-                                <input type="submit" value="Apagar">
-                            </form>
-                            
-                            
-                           
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+            {% include 'core/turma/tables/gerenciar_turma_table.html' %}
         </div>
     </div>
     

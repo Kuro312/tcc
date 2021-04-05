@@ -1,0 +1,13 @@
+
+
+.tabela{
+    width: 700px;
+    color:red;
+}
+
+@media screen and (max-width: 1000px) {
+    .tabela{
+        width : 300px;
+    }
+
+}
